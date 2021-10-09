@@ -1,31 +1,14 @@
-import { GithubButton } from '@/components/LoginButton/GithubButton';
+import { GithubLoginButton } from '@/components/LoginButton/GithubButton';
+import { WxLoginButton } from '@/components/LoginButton/WxButton';
 import { useEffect } from 'react';
-import { IRouteComponentProps, useHistory } from 'umi';
 
-export default (props: IRouteComponentProps) => {
-  const githubButtonClick = () => {
-    fetch('http://localhost:3000/login/github').then((res) => {
-      res.json().then((data) => {
-        window.location.href = data.data;
-      });
-    });
-  };
-  const history = useHistory();
-  useEffect(() => {
-    const code = props.location.query.code;
-    fetch(`http://localhost:3000/getUserInfo/github?code=${code}`).then(
-      (res) => {
-        res.json().then((d) => {
-          if (d.data) {
-            history.push('/home', d.data);
-          }
-        });
-      },
-    );
-  });
+const BASE_URL = process.env.BASE_URL;
+
+export default () => {
   return (
     <>
-      <GithubButton onClick={githubButtonClick} />
+      <GithubLoginButton />
+      <WxLoginButton />
     </>
   );
 };

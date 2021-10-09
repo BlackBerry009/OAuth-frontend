@@ -9,7 +9,7 @@ export default ({ children, location }: IRouteComponentProps) => {
   return (
     <Layout className="layout">
       <Header className="header">
-        <UserInfo avatorUrl={state.avatar_url} />
+        <UserInfo avatarUrl={state.avatar} />
       </Header>
       <Content className="content">{children}</Content>
     </Layout>
