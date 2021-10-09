@@ -21,13 +21,15 @@ export const GithubLoginButton = () => {
   };
   useEffect(() => {
     const code = location?.query?.code;
-    fetch(`${BASE_URL}/getUserInfo/github?code=${code}`).then((res) => {
-      res.json().then((d) => {
-        if (d.data) {
-          history.push('/home', d.data);
-        }
+    code &&
+      fetch(`${BASE_URL}/getUserInfo/github?code=${code}`).then((res) => {
+        res.json().then((d) => {
+          if (d.data) {
+            const { login: nickName, avatar_url: avatar } = d.data;
+            history.push('/home', { nickName, avatar });
+          }
+        });
       });
-    });
-  });
+  }, [location?.query?.code]);
   return <GithubOutlined onClick={githubButtonClick} className="button-icon" />;
 };
