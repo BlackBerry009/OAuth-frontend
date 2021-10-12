@@ -6,6 +6,6 @@ export default defineConfig({
   },
   fastRefresh: {},
   history: {
-    type: 'hash',
+    type: 'browser',
   },
 });
