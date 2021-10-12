@@ -1,15 +1,10 @@
-# umi project
+# OAuth-frontend
 
-## Getting Started
+第三方登录 [后端代码](https://github.com/BlackBerry009/OAuth-backend)
 
-Install dependencies,
+第三方登录 前端代码
 
-```bash
-$ yarn
-```
+- 微信登录
+- github 登录
 
-Start the dev server,
-
-```bash
-$ yarn start
-```
+[传送门](http://81.68.101.109/)
