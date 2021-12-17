@@ -19,13 +19,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12
-      # 运行命令，npm install && npm run build
-      - name: npm install and build
-        run: |
-          npm install
-          npm run build:prod
-        env:
-          CI: true
       # 部署到腾讯云服务器
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@v2.0.7
