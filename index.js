@@ -18,8 +18,8 @@ const polar = (ang, r = 1) => [r * cos(ang), r * sin(ang)];
 let scene, camera, renderer, analyser;
 let step = 0;
 const uniforms = {
-  time: { type: "f", value: 0.0 },
-  step: { type: "f", value: 0.0 },
+  time: { type: 'f', value: 0.0 },
+  step: { type: 'f', value: 0.0 },
 };
 const params = {
   exposure: 1,
@@ -38,13 +38,13 @@ const audio = new THREE.Audio(listener);
 
 // document.querySelector("input").addEventListener("change", uploadAudio, false);
 
-const buttons = document.querySelectorAll(".btn");
+const buttons = document.querySelectorAll('.btn');
 buttons.forEach((button, index) =>
-  button.addEventListener("click", () => loadAudio(index))
+  button.addEventListener('click', () => loadAudio(index))
 );
 
 function init() {
-  const overlay = document.getElementById("overlay");
+  const overlay = document.getElementById('overlay');
   overlay.remove();
 
   scene = new THREE.Scene();
@@ -59,8 +59,16 @@ function init() {
     1,
     1000
   );
-  camera.position.set(-0.09397456774197047,-2.5597086635726947,24.420789670889008)
-  camera.rotation.set(0.10443543723052419,-0.003827152981119352,0.0004011488708739715)
+  camera.position.set(
+    -0.09397456774197047,
+    -2.5597086635726947,
+    24.420789670889008
+  );
+  camera.rotation.set(
+    0.10443543723052419,
+    -0.003827152981119352,
+    0.0004011488708739715
+  );
 
   const format = renderer.capabilities.isWebGL2
     ? THREE.RedFormat
@@ -108,33 +116,60 @@ function animate(time) {
   requestAnimationFrame(animate);
 }
 
+function is_weixn() {
+  var ua = navigator.userAgent.toLowerCase();
+  if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function loadAudio(i) {
-  document.getElementById("overlay").innerHTML =
+  document.getElementById('overlay').innerHTML =
     '<div class="text-loading">急个锤子，等等...</div>';
   const files = [
-    "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Simon_Panrucker/Happy_Christmas_You_Guys/Simon_Panrucker_-_01_-_Snowflakes_Falling_Down.mp3",
-    "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Dott/This_Christmas/Dott_-_01_-_This_Christmas.mp3",
-    "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/TRG_Banks/TRG_Banks_Christmas_Album/TRG_Banks_-_12_-_No_room_at_the_inn.mp3",
-    "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Mark_Smeby/En_attendant_Nol/Mark_Smeby_-_07_-_Jingle_Bell_Swing.mp3",
+    'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Simon_Panrucker/Happy_Christmas_You_Guys/Simon_Panrucker_-_01_-_Snowflakes_Falling_Down.mp3',
+    'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Dott/This_Christmas/Dott_-_01_-_This_Christmas.mp3',
+    'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/TRG_Banks/TRG_Banks_Christmas_Album/TRG_Banks_-_12_-_No_room_at_the_inn.mp3',
+    'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Mark_Smeby/En_attendant_Nol/Mark_Smeby_-_07_-_Jingle_Bell_Swing.mp3',
   ];
   const file = files[i];
 
   const loader = new THREE.AudioLoader();
-    loader.load(file, function (buffer) {
+  loader.load(file, function (buffer) {
+    console.log('load');
+    wx.config({
+      debug: false,
+      appId: '',
+      timestamp: 1,
+      nonceStr: '',
+      signature: '',
+      jsApiList: [],
+    });
+    const iswx = is_weixn();
+    if (iswx) {
+      // 在ready时触发相关事件
+      wx.ready(function () {
+        console.log('readt');
+        // 触发一下play事件
+        // audio.play();/
+        audio.setBuffer(buffer);
+        audio.play();
+        analyser = new THREE.AudioAnalyser(audio, fftSize);
+        init();
+      });
+    } else {
       audio.setBuffer(buffer);
       audio.play();
       analyser = new THREE.AudioAnalyser(audio, fftSize);
       init();
-    });
-
-  
-
-  
+    }
+  });
 }
 
-
 function uploadAudio(event) {
-  document.getElementById("overlay").innerHTML =
+  document.getElementById('overlay').innerHTML =
     '<div class="text-loading">Please Wait...</div>';
   const files = event.target.files;
   const reader = new FileReader();
@@ -197,7 +232,9 @@ function addTree(scene, uniforms, totalPoints, treePosition) {
     uniforms: {
       ...uniforms,
       pointTexture: {
-        value: new THREE.TextureLoader().load(`https://assets.codepen.io/3685267/spark1.png`),
+        value: new THREE.TextureLoader().load(
+          `https://assets.codepen.io/3685267/spark1.png`
+        ),
       },
     },
     vertexShader,
@@ -238,15 +275,15 @@ function addTree(scene, uniforms, totalPoints, treePosition) {
   }
 
   geometry.setAttribute(
-    "position",
+    'position',
     new THREE.Float32BufferAttribute(positions, 3).setUsage(
       THREE.DynamicDrawUsage
     )
   );
-  geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-  geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
-  geometry.setAttribute("phase", new THREE.Float32BufferAttribute(phases, 1));
-  geometry.setAttribute("mIndex", new THREE.Float32BufferAttribute(mIndexs, 1));
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+  geometry.setAttribute('phase', new THREE.Float32BufferAttribute(phases, 1));
+  geometry.setAttribute('mIndex', new THREE.Float32BufferAttribute(mIndexs, 1));
 
   const tree = new THREE.Points(geometry, shaderMaterial);
 
@@ -347,7 +384,7 @@ function addSnow(scene, uniforms) {
       positions.push(y);
       positions.push(z);
 
-      color.set(randChoise(["#f1d4d4", "#f1f6f9", "#eeeeee", "#f1f1e8"]));
+      color.set(randChoise(['#f1d4d4', '#f1f6f9', '#eeeeee', '#f1f1e8']));
 
       colors.push(color.r, color.g, color.b);
       phases.push(rand(1000));
@@ -356,14 +393,14 @@ function addSnow(scene, uniforms) {
     }
 
     geometry.setAttribute(
-      "position",
+      'position',
       new THREE.Float32BufferAttribute(positions, 3)
     );
-    geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-    geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
-    geometry.setAttribute("phase", new THREE.Float32BufferAttribute(phases, 1));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+    geometry.setAttribute('phase', new THREE.Float32BufferAttribute(phases, 1));
     geometry.setAttribute(
-      "phaseSecondary",
+      'phaseSecondary',
       new THREE.Float32BufferAttribute(phaseSecondaries, 1)
     );
 
@@ -372,11 +409,11 @@ function addSnow(scene, uniforms) {
     scene.add(mesh);
   }
   const sprites = [
-    "https://assets.codepen.io/3685267/snowflake1.png",
-    "https://assets.codepen.io/3685267/snowflake2.png",
-    "https://assets.codepen.io/3685267/snowflake3.png",
-    "https://assets.codepen.io/3685267/snowflake4.png",
-    "https://assets.codepen.io/3685267/snowflake5.png",
+    'https://assets.codepen.io/3685267/snowflake1.png',
+    'https://assets.codepen.io/3685267/snowflake2.png',
+    'https://assets.codepen.io/3685267/snowflake3.png',
+    'https://assets.codepen.io/3685267/snowflake4.png',
+    'https://assets.codepen.io/3685267/snowflake5.png',
   ];
   sprites.forEach((sprite) => {
     createSnowSet(sprite);
@@ -412,7 +449,9 @@ function addPlane(scene, uniforms, totalPoints) {
     uniforms: {
       ...uniforms,
       pointTexture: {
-        value: new THREE.TextureLoader().load(`https://assets.codepen.io/3685267/spark1.png`),
+        value: new THREE.TextureLoader().load(
+          `https://assets.codepen.io/3685267/spark1.png`
+        ),
       },
     },
     vertexShader,
@@ -436,23 +475,23 @@ function addPlane(scene, uniforms, totalPoints) {
     positions.push(y);
     positions.push(z);
 
-    color.set(randChoise(["#93abd3", "#f2f4c0", "#9ddfd3"]));
+    color.set(randChoise(['#93abd3', '#f2f4c0', '#9ddfd3']));
 
     colors.push(color.r, color.g, color.b);
     sizes.push(1);
   }
 
   geometry.setAttribute(
-    "position",
+    'position',
     new THREE.Float32BufferAttribute(positions, 3).setUsage(
       THREE.DynamicDrawUsage
     )
   );
   geometry.setAttribute(
-    "customColor",
+    'customColor',
     new THREE.Float32BufferAttribute(colors, 3)
   );
-  geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
+  geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
 
   const plane = new THREE.Points(geometry, shaderMaterial);
 
@@ -461,7 +500,7 @@ function addPlane(scene, uniforms, totalPoints) {
 }
 
 function addListners(camera, renderer, composer) {
-  document.addEventListener("keydown", (e) => {
+  document.addEventListener('keydown', (e) => {
     const { x, y, z } = camera.position;
     console.log(`camera.position.set(${x},${y},${z})`);
     const { x: a, y: b, z: c } = camera.rotation;
@@ -469,7 +508,7 @@ function addListners(camera, renderer, composer) {
   });
 
   window.addEventListener(
-    "resize",
+    'resize',
     () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
