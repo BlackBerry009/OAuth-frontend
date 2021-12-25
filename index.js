@@ -127,7 +127,7 @@ function is_weixn() {
 
 function loadAudio(i) {
   document.getElementById('overlay').innerHTML =
-    '<div class="text-loading">急个锤子，等等...</div>';
+    '<div class="text-loading">加载歌曲...</div>';
   const files = [
     'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Simon_Panrucker/Happy_Christmas_You_Guys/Simon_Panrucker_-_01_-_Snowflakes_Falling_Down.mp3',
     'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Dott/This_Christmas/Dott_-_01_-_This_Christmas.mp3',
