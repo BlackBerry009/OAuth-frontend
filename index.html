@@ -1,20 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="author" content="Script Tutorials" />
-    <title>Christmas tree with three.js | Script Tutorials</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-
-    <!-- add styles -->
-    <link href="css/main.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/main.css">
   </head>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/ShaderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/shaders/CopyShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+  <script src="./a.js"></script>
+
   <body>
-    <!-- add scripts -->
-    <script src="js/three.min.js"></script>
-    <script src="js/script.js"></script>
+    <div id="overlay">
+      <ul>
+        <li class="title">张倩，给爹选择第二首</li>
+        <li class="title">圣诞开始</li>
+        <li>
+          <button class="btn" id="btnA" type="button">
+            Snowflakes Falling Down by Simon Panrucker
+          </button>
+        </li>
+        <li>
+          <button class="btn" id="btnB" type="button">
+            This Christmas by Dott
+          </button>
+        </li>
+        <li>
+          <button class="btn" id="btnC" type="button">
+            No room at the inn by TRG Banks
+          </button>
+        </li>
+        <li>
+          <button class="btn" id="btnD" type="button">
+            Jingle Bell Swing by Mark Smeby
+          </button>
+        </li>
+        <!-- <li class="separator">OR</li>
+        <li>
+          <input type="file" id="upload" hidden />
+          <label for="upload">Upload File</label>
+        </li> -->
+      </ul>
+    </div>
   </body>
+  <script src="./index.js"></script>
 </html>
